@@ -9,8 +9,7 @@ class OrderItemInline(admin.TabularInline):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'status', 'created_at')
-    list_filter = ('status', 'created_at', 'user')
-    search_fields = ('id', 'user__username')
+    list_filter = ('status', 'created_at')
     ordering = ('-created_at',)
     inlines = [OrderItemInline]
 
