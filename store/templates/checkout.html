@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+
+<h2>Checkout</h2>
+
+{% if cart_items %}
+
+    <ul>
+        {% for item in cart_items %}
+            <li>{{ item.product.name }} × {{ item.quantity }} = ₹{{ item.subtotal }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total: ₹{{ total }}</h3>
+
+    <form method="post" action="{% url 'place_order' %}">
+        {% csrf_token %}
+        <button type="submit">Place Order</button>
+    </form>
+
+{% else %}
+    <p>Your cart is empty</p>
+{% endif %}
+
+</body>
+</html>

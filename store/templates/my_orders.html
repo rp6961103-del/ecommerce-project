@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        .box {
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .title {
+            background: #f2f2f2;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align:center;">My Orders</h1>
+
+{% if orders %}
+
+    {% for order in orders %}
+
+        <div class="box">
+
+            <div class="title">
+                Order #{{ order.id }}
+            </div>
+
+            <p>Date: {{ order.created_at }}</p>
+            <p>Status: <span class="status">{{ order.status }}</span></p>
+
+            <h4>Items:</h4>
+
+            <ul>
+
+                {% for item in order.orderitem_set.all %}
+
+                    <li>
+                        {{ item.product.name }} × {{ item.quantity }}
+                    </li>
+
+                {% empty %}
+                    <li>No items found in this order</li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+    <p style="text-align:center;">No orders found</p>
+{% endif %}
+
+</body>
+</html>
