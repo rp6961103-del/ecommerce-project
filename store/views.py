@@ -503,18 +503,21 @@ def order_detail(request, order_id):
     )
 
 
-# ---------------- REGISTER ----------------
+from django.contrib.auth import login
+
 def register(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+
     else:
         form = RegisterForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, "register.html", {"form": form})
 # ---------------- ADD TO WISHLIST ----------------
 
 @login_required
