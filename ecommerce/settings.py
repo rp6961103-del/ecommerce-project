@@ -107,16 +107,3 @@ EMAIL_HOST_USER = "rp6961103@gmail.com"
 EMAIL_HOST_PASSWORD = "ysepstlukfcpnlrg"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-import os
-
-if os.environ.get("CREATE_SUPERUSER"):
-    from django.contrib.auth import get_user_model
-
-    User = get_user_model()
-
-    if not User.objects.filter(username="ramadmin").exists():
-        User.objects.create_superuser(
-            "ramadmin",
-            "ram@gmail.com",
-            "Ram@12345"
-        )
