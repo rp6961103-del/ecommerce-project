@@ -19,6 +19,9 @@ from .models import Product, Order, OrderItem,Category,Wishlist,Review
 from .forms import RegisterForm,ReviewForm
 from django.core.mail import send_mail
 print("STORE VIEWS LOADED")
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def home(request):
 
     query = request.GET.get('q')
