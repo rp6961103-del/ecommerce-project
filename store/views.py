@@ -208,6 +208,7 @@ def remove_from_cart(request, product_id):
 
 
 # ---------------- CHECKOUT ----------------
+@login_required
 def checkout(request):
     cart_data = request.session.get('cart', {})
 
