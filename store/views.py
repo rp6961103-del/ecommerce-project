@@ -323,43 +323,34 @@ def place_order(request):
     if not cart:
         return redirect("cart")
 
-    customer_name = request.POST.get("name")
-    email = request.POST.get("email")
-    address = request.POST.get("address")
-    phone = request.POST.get("phone")
-    payment_method = request.POST.get("payment")
-
     order = Order.objects.create(
         user=request.user,
-        customer_name=customer_name,
-        email=email,
-        address=address,
-        phone=phone,
-        payment_method=payment_method,
+        customer_name=request.POST.get("name"),
+        email=request.POST.get("email"),
+        address=request.POST.get("address"),
+        phone=request.POST.get("phone"),
+        payment_method=request.POST.get("payment"),
         status="Confirmed"
     )
 
+    products = Product.objects.filter(id__in=cart.keys())
+    product_map = {str(product.id): product for product in products}
+
     for product_id, quantity in cart.items():
-
-        try:
-            product = Product.objects.get(id=int(product_id))
-
+        product = product_map.get(str(product_id))
+        if product:
             OrderItem.objects.create(
                 order=order,
                 product=product,
                 quantity=quantity
             )
 
-            # Reduce stock
-            product.stock -= quantity
-            product.save()
-
-        except Product.DoesNotExist:
-            continue
-
+    # Clear cart
     request.session["cart"] = {}
     request.session.modified = True
-    send_order_email(order)
+
+    # Redirect to home page
+    return redirect("home")
 
     # Send WhatsApp confirmation
     send_whatsapp_message(order)
