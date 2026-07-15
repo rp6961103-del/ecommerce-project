@@ -349,16 +349,12 @@ def place_order(request):
     request.session["cart"] = {}
     request.session.modified = True
 
+# Send confirmation email
+    send_order_email(order)
     # Redirect to home page
     return redirect("home")
 
-    # Send WhatsApp confirmation
-    send_whatsapp_message(order)
-
-    if payment_method == "UPI":
-        return redirect("upi_payment", order_id=order.id)
-
-    return redirect("order_detail", order_id=order.id)
+    
 # ---------------- MY ORDERS ----------------
 @login_required
 def my_orders(request):
