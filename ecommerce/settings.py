@@ -121,9 +121,9 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "rp6961103@gmail.com"
+EMAIL_HOST_USER = ("rp6961103@gmail.com")
 
-EMAIL_HOST_PASSWORD = "xepualefaeclvcny"
+EMAIL_HOST_PASSWORD = ("xepualefaeclvcny")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
