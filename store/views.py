@@ -9,7 +9,9 @@ import requests
 
 from django.conf import settings
 from django.http import HttpResponse
+
 from django.core.mail import send_mail
+from django.conf import settings
 
 import matplotlib
 matplotlib.use('Agg')
@@ -306,12 +308,13 @@ My E-Commerce Store
 """
 
     send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,
-        [order.email],
+        subject=subject,
+        message=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[order.email],
         fail_silently=False,
     )
+
     print("EMAIL SENT")
 @login_required
 def place_order(request):
