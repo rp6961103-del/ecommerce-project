@@ -121,8 +121,10 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = os.environ.get("rp6961103@gmail.com")
+EMAIL_HOST_USER = "rp6961103@gmail.com"
 
-EMAIL_HOST_PASSWORD = os.environ.get("zmbvceshynkokqab")
+EMAIL_HOST_PASSWORD = "xepualefaeclvcny"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_TIMEOUT = 10

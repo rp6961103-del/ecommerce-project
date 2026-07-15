@@ -1,25 +1,26 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
-from django.db.models import Sum, F
+from django.db.models import Avg, Sum, F
 from django.contrib.admin.views.decorators import staff_member_required
+
 import io
 import base64
 import requests
+
 from django.conf import settings
+from django.http import HttpResponse
+from django.core.mail import send_mail
 
 import matplotlib
 matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
-from django.http import HttpResponse
 from reportlab.pdfgen import canvas
-from .models import Product, Order, OrderItem,Category,Wishlist,Review
-from .forms import RegisterForm,ReviewForm
-from django.core.mail import send_mail
+
+from .models import Product, Order, OrderItem, Category, Wishlist, Review
+from .forms import RegisterForm, ReviewForm
+
 print("STORE VIEWS LOADED")
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
@@ -267,8 +268,7 @@ def send_whatsapp_message(order):
 
     print(response.status_code)
     print(response.text)
-from django.core.mail import send_mail
-from django.conf import settings
+
 
 def send_order_email(order):
 
@@ -312,6 +312,7 @@ My E-Commerce Store
         [order.email],
         fail_silently=False,
     )
+    print("EMAIL SENT")
 @login_required
 def place_order(request):
 
@@ -349,11 +350,20 @@ def place_order(request):
     request.session["cart"] = {}
     request.session.modified = True
 
-# Send confirmation email
-    send_order_email(order)
-    # Redirect to home page
-    return redirect("home")
+    # Send confirmation email safely
+    try:
+        send_order_email(order)
+        print("Email sent successfully")
+    except Exception as e:
+        print("Email failed:", e)
 
+    # Clear cart after order
+    request.session["cart"] = {}
+    request.session.modified = True
+
+    # Redirect to home page
+
+    return redirect("home")
     
 # ---------------- MY ORDERS ----------------
 @login_required
@@ -764,8 +774,7 @@ def cancel_order(request, order_id):
         # send_cancel_email(order)
 
     return redirect("order_detail", order_id=order.id)
-from django.core.mail import send_mail
-from django.conf import settings
+
 
 def send_cancel_email(order):
 
@@ -790,14 +799,13 @@ Thank you for shopping with us.
 
 My E-Commerce Store
 """
-
     send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,
-        [order.email],
-        fail_silently=False,
-    )
+    subject,
+    message,
+    settings.EMAIL_HOST_USER,
+    [order.email],
+    fail_silently=True,
+)
 
 
 @staff_member_required
