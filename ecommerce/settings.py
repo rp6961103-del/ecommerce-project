@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -120,8 +121,8 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "rp6961103@gmail.com"
+EMAIL_HOST_USER = os.environ.get("rp6961103@gmail.com")
 
-EMAIL_HOST_PASSWORD = "zmbvceshynkokqab"
+EMAIL_HOST_PASSWORD = os.environ.get("zmbvceshynkokqab")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
