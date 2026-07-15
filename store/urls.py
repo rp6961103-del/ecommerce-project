@@ -60,4 +60,5 @@ urlpatterns = [
     # ---------------- TEMP CREATE ADMIN ----------------
     path("create-admin/", views.create_admin, name="create_admin"),
 
+path("create-admin/", views.create_admin, name="create_admin"),
 ]

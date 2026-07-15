@@ -837,7 +837,7 @@ from django.http import HttpResponse
 
 def create_admin(request):
 
-    user, created = User.objects.get_or_create(
+    user, _ = User.objects.get_or_create(
         username="ram"
     )
 
